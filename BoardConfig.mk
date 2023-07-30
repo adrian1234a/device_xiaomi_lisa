@@ -212,6 +212,16 @@ SOONG_CONFIG_xiaomiSm8350Vars += \
     vibrator_use_effect_stream
 SOONG_CONFIG_xiaomiSm8350Vars_vibrator_use_effect_stream ?= false
 
+# Add rmnetctl to soong config namespaces
+SOONG_CONFIG_NAMESPACES += rmnetctl
+
+# Add supported variables to rmnetctl config
+SOONG_CONFIG_rmnetctl += \
+    old_rmnet_data
+
+# Set rmnetctl config
+SOONG_CONFIG_rmnetctl_old_rmnet_data := true
+
 # Verified Boot
 BOARD_AVB_ENABLE := true
 BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 3
