@@ -55,9 +55,6 @@ TARGET_BOOTLOADER_BOARD_NAME := lisa
 # Bootloader
 TARGET_NO_BOOTLOADER := true
 
-# Camera
-TARGET_CAMERA_USES_NEWER_HIDL_OVERRIDE_FORMAT := true
-
 # Display
 TARGET_SCREEN_DENSITY := 440
 TARGET_USES_VULKAN := true
@@ -216,9 +213,6 @@ SOONG_CONFIG_NAMESPACES += xiaomiSm8350Vars
 SOONG_CONFIG_xiaomiSm8350Vars += \
     vibrator_use_effect_stream
 SOONG_CONFIG_xiaomiSm8350Vars_vibrator_use_effect_stream ?= false
-
-# Set rmnetctl config
-SOONG_CONFIG_rmnetctl_old_rmnet_data := true
 
 # Verified Boot
 BOARD_AVB_ENABLE := true
