@@ -20,23 +20,5 @@
     "repository": "crdroidandroid/android-vendor-xiaomi-lisa-firmware",
     "target_path": "vendor/xiaomi/lisa-firmware",
     "remote": "crdroid-gitlab"
-  },
-  {
-    "repository": "LineageOS/android_hardware_qcom_audio",
-    "target_path": "hardware/qcom-caf/sm8350/audio",
-    "remote": "github",
-    "branch": "lineage-20.0-caf-sm8350"
-  },
-  {
-    "repository": "LineageOS/android_hardware_qcom_display",
-    "target_path": "hardware/qcom-caf/sm8350/display",
-    "remote": "github",
-    "branch": "lineage-20.0-caf-sm8350"
-  },
-  {
-    "repository": "LineageOS/android_hardware_qcom_media",
-    "target_path": "hardware/qcom-caf/sm8350/media",
-    "remote": "github",
-    "branch": "lineage-20.0-caf-sm8350"
   }
 ]
