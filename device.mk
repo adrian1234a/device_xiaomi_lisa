@@ -171,8 +171,6 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     libdisplayconfig.qti \
-    libdisplayconfig.qti.vendor \
-    libdisplayconfig.system \
     libdisplayconfig.system.qti \
     libqdMetaData \
     libqdMetaData.system \
@@ -318,9 +316,7 @@ PRODUCT_PACKAGES += \
     libOmxQcelp13Enc \
     libstagefrighthw \
     libstagefright_omx \
-    libstagefright_foundation \
-    libOmxVdec \
-    libOmxVenc
+    libstagefright_foundation
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/media/init.qti.media.sh:$(TARGET_COPY_OUT_VENDOR)/bin/init.qti.media.sh \
