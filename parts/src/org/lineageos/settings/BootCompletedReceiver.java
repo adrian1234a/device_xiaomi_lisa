@@ -23,12 +23,19 @@ import android.content.IntentFilter;
 import android.os.IBinder;
 import android.view.Display.HdrCapabilities;
 import android.view.SurfaceControl;
+import android.util.Log;
 
 import org.lineageos.settings.dirac.DiracUtils;
 import org.lineageos.settings.doze.PocketService;
 import org.lineageos.settings.thermal.ThermalUtils;
+import org.lineageos.settings.utils.FileUtils;
+import android.content.SharedPreferences;
+import androidx.preference.PreferenceManager;
 
 public class BootCompletedReceiver extends BroadcastReceiver {
+
+    private static final String DC_DIMMING_ENABLE_KEY = "dc_dimming_enable";
+    private static final String DC_DIMMING_NODE = "/sys/devices/platform/soc/soc:qcom,dsi-display-primary/dimlayer_exposure";
 
     @Override
     public void onReceive(final Context context, Intent intent) {
@@ -44,11 +51,16 @@ public class BootCompletedReceiver extends BroadcastReceiver {
 
         // Pocket
         PocketService.startService(context);
+	// SharedPreferences
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         // Override HDR types
         final IBinder displayToken = SurfaceControl.getInternalDisplayToken();
         SurfaceControl.overrideHdrTypes(displayToken, new int[]{
                 HdrCapabilities.HDR_TYPE_DOLBY_VISION, HdrCapabilities.HDR_TYPE_HDR10,
                 HdrCapabilities.HDR_TYPE_HLG, HdrCapabilities.HDR_TYPE_HDR10_PLUS});
-    }
+
+        boolean dcDimmingEnabled = sharedPrefs.getBoolean(DC_DIMMING_ENABLE_KEY, false);
+            FileUtils.writeLine(DC_DIMMING_NODE, dcDimmingEnabled ? "1" : "0");
+	}
 }

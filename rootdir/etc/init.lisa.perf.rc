@@ -34,9 +34,6 @@ on property:vendor.post_boot.parsed=1
     write /proc/sys/kernel/sched_downmigrate "60 75"
     write /proc/sys/kernel/sched_group_upmigrate 95
     write /proc/sys/kernel/sched_group_downmigrate 75
-    write /proc/sys/kernel/sched_prefer_spread 2
-    write /proc/sys/kernel/walt_low_latency_task_threshold 100
-    write /proc/sys/kernel/walt_rtg_cfs_boost_prio 119
 
     # Configure uclamp
     write /dev/cpuctl/top-app/cpu.uclamp.latency_sensitive 1
@@ -64,6 +61,24 @@ on property:vendor.post_boot.parsed=1
     # Enable PowerHAL hint processing
     setprop vendor.powerhal.init 1
 
-on property:ro.board.platform=lahaina
     # Setup foreground cpuset for display composer.
     write /dev/cpuset/foreground/cpus 0-6
+
+service vendor.qti.hardware.display.composer /vendor/bin/hw/vendor.qti.hardware.display.composer-service
+    override
+    class hal animation
+    user system
+    group graphics drmrpc
+    capabilities SYS_NICE
+    onrestart restart surfaceflinger
+    socket pps stream 0660 system system
+    task_profiles ProcessCapacityHigh HighPerformance
+
+service vendor.qti.hardware.display.allocator /vendor/bin/hw/vendor.qti.hardware.display.allocator-service
+    override
+    class hal animation
+    user system
+    group graphics drmrpc
+    capabilities SYS_NICE
+    onrestart restart surfaceflinger
+    task_profiles ProcessCapacityHigh HighPerformance

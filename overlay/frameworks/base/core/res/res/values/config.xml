@@ -290,7 +290,7 @@
          brightness changes occur in response to an observed change in light level that exceeds the
          hysteresis threshold. -->
     <integer name="config_autoBrightnessBrighteningLightDebounce">1000</integer>
-    <integer name="config_autoBrightnessDarkeningLightDebounce">2000</integer>
+    <integer name="config_autoBrightnessDarkeningLightDebounce">4000</integer>
 
     <!-- Fast brightness animation ramp rate in brightness units per second-->
     <integer name="config_brightness_ramp_rate_fast">307</integer>
@@ -619,7 +619,7 @@
         <item>"/system/framework/services.jar"</item>
         <item>"/apex/com.android.art/javalib/core-oj.jar"</item>
         <item>"/apex/com.android.art/javalib/core-libart.jar"</item>
-        <item>"/system_ext/priv-app/SystemUIGoogle/SystemUIGoogle.apk"</item>
+        <item>"/system_ext/priv-app/SystemUI/SystemUI.apk"</item>
         <item>"/system/bin/surfaceflinger"</item>
         <item>"/system/lib64/libEGL.so"</item>
         <item>"/system/lib64/libhwui.so"</item>
@@ -628,6 +628,8 @@
         <item>"/vendor/lib64/libipebpsstriping.so"</item>
         <item>"/vendor/lib64/libipebpsstriping170.so"</item>
         <item>"/vendor/lib64/libllvm-qgl.so"</item>
+        <item>"/system_ext/priv-app/MotoDolbyDax3/MotoDolbyDax3.apk"</item>
+        <item>"/system_ext/priv-app/daxService/daxService.apk"</item>
     </string-array>
 
     <!-- Should the pinner service pin the Home application? -->
@@ -675,10 +677,11 @@
 
     <!-- Indicate available ColorDisplayManager.COLOR_MODE_xxx. -->
     <integer-array name="config_availableColorModes">
-        <item>0</item> <!-- COLOR_MODE_NATURAL   -->
-        <item>1</item> <!-- COLOR_MODE_BOOSTED   -->
-        <item>2</item> <!-- COLOR_MODE_SATURATED -->
-        <item>3</item> <!-- COLOR_MODE_AUTOMATIC -->
+        <item>258</item> <!-- vivid -->
+        <item>256</item> <!-- saturated -->
+        <item>257</item> <!-- original -->
+        <item>268</item> <!-- p3 -->
+        <item>267</item> <!-- srgb -->
     </integer-array>
 
     <!-- Color mode to use when accessibility transforms are enabled. This color mode must be
@@ -825,24 +828,9 @@
 
     <!--  Maximum number of supported users -->
     <integer name="config_multiuserMaximumUsers">5</integer>
-   
-    <!-- Defines the sysfs attribute path used by the device
-         to enable/disable DC dimming. -->
-    <string name="config_deviceDcDimmingSysfsNode">/sys/devices/platform/soc/soc:qcom,dsi-display-primary/dimlayer_exposure</string>
-
-    <!-- Defines the value used by the device sysfs node
-         to enable DC dimming -->
-    <string name="config_deviceDcDimmingEnableValue">1</string>
-
-    <!-- Defines the value used by the device sysfs node
-         to disable DC dimming -->
-    <string name="config_deviceDcDimmingDisableValue">0</string>
 
     <!-- Default values for LiveDisplay -->
     <bool name="config_enableLiveDisplay">false</bool>
-
-    <!-- Build fingerprint from stock ROM -->
-    <string name="config_stockFingerprint" translatable="false">Xiaomi/lisa_global/lisa:13/RKQ1.211001.001/V14.0.4.0.TKOMIXM:user/release-keys</string>
 
     <!-- Device model (Build.MODEL) to spoof for netflix, if not empty -->
     <string name="config_netflixSpoofModel" translatable="false">M2101K9G</string>
