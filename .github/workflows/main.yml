@@ -24,8 +24,8 @@ jobs:
         chmod a+x repo
         git config --global user.name adrian1234a
         git config --global user.email adri16072002@gmail.com
-        repo init -u https://github.com/crdroidandroid/android.git -b 14.0
-        repo sync
+        . repo init -u https://github.com/crdroidandroid/android.git -b 14.0
+        . repo sync
 
     - name: Sync Device Repos
       run: |
