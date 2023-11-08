@@ -16,9 +16,8 @@ jobs:
         sudo apt update
         sudo apt install bc bison build-essential ccache curl flex g++-multilib gcc-multilib git git-lfs gnupg gperf imagemagick lib32readline-dev lib32z1-dev libelf-dev liblz4-tool libsdl1.2-dev libssl-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev lib32ncurses5-dev libncurses5 libncurses5-dev python3 python-is-python3
         mkdir -p $GITHUB_WORKSPACE/crdroid
-	curl https://storage.googleapis.com/git-repo-downloads/repo > crdroid/repo
-	chmod a+x crdroid/repo
-        
+	curl https://storage.googleapis.com/git-repo-downloads/repo > $GITHUB_WORKSPACE/crdroid/repo
+ 
     - name: Sync Crdroid Repo
       run: |
 	cd $GITHUB_WORKSPACE/crdroid
