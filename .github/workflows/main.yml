@@ -1,4 +1,4 @@
-name: Build Kernel (Stable)
+name: Build ROM (TEST)
 on:
   watch:
     types: [started]
@@ -7,43 +7,36 @@ on:
 
 jobs:
   build:
-    name: Build KernelSU Stable
+    name: Build ROM TEST
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Setup build kernel environment
+    - name: Setup build environment
       run: |
         sudo apt update
-        sudo apt install libc6-dev clang flex bison libssl-dev bc python3 python2 zip unzip git lld llvm
-        mkdir -p $GITHUB_WORKSPACE/kernel_workspace
+        sudo apt install bc bison build-essential ccache curl flex g++-multilib gcc-multilib git git-lfs gnupg gperf imagemagick lib32readline-dev lib32z1-dev libelf-dev liblz4-tool libsdl1.2-dev libssl-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev lib32ncurses5-dev libncurses5 libncurses5-dev python3 python-is-python3
+        mkdir -p $GITHUB_WORKSPACE/crdroid
+	curl https://storage.googleapis.com/git-repo-downloads/repo > crdroid/repo
+	chmod a+x crdroid/repo
         
-    - name: Download Clang 17.0.2
+    - name: Sync Crdroid Repo
       run: |
-        cd $GITHUB_WORKSPACE/kernel_workspace
-        git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86.git clang --depth=1
-        export PATH="$GITHUB_WORKSPACE/kernel_workspace/clang/clang-r487747c/bin:$PATH"
+	cd $GITHUB_WORKSPACE/crdroid
+	repo init -u https://github.com/crdroidandroid/android.git -b 14.0 --git-lfs
+	repo sync
         
-    - name: Download kernel source
+    - name: Sync Device Repos
       run: |
-        cd $GITHUB_WORKSPACE/kernel_workspace
-        git clone https://github.com/adrian1234a/kernel_xiaomi_lisa.git --depth=1 -b 14.0
+        cd $GITHUB_WORKSPACE/crdroid
+        git clone https://github.com/crdroidandroid/android_device_xiaomi_lisa.git -b 14.0 device/xiaomi/lisa
+	git clone https://github.com/crdroidandroid/android_kernel_xiaomi_lisa.git -b 14.0 kernel/xiaomi/lisa
+        git clone https://github.com/crdroidandroid/android_vendor_xiaomi_lisa.git -b 14.0 vendor/xiaomi/lisa
+	git clone https://github.com/crdroidandroid/android_vendor_xiaomi_camera-lisa.git -b 14.0 vendor/xiaomi/camera
+	git clone https://github.com/crdroidandroid/android_hardware_xiaomi.git -b 14.0 hardware/xiaomi
         
-    - name: Integrate KernelSU
+    - name: Compiling Rom
       run: |
-        cd $GITHUB_WORKSPACE/kernel_workspace/kernel_xiaomi_lisa
-        curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -
-        
-    - name: Compiling Kernel
-      run: |
-        cd $GITHUB_WORKSPACE/kernel_workspace/kernel_xiaomi_lisa
-        chmod +x build.sh
-        ./build.sh
-        filename=$(find . -name Quick* -printf '%f\n')
-        echo $filename
-        echo "FILENAME=$filename" >> $GITHUB_ENV
-        
-    - name: Uploading Kernel
-      uses: actions/upload-artifact@v3
-      with:
-        name: QuicksilveR_KernelSU
-        path: ${{ github.workspace }}/kernel_workspace/kernel_xiaomi_lisa/${{ env.FILENAME }}
+        cd $GITHUB_WORKSPACE/crdroid
+	. build/envsetup.sh
+	lunch lineage_lisa_userdebug
+	m bacon
