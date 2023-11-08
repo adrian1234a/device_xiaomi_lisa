@@ -19,9 +19,11 @@ jobs:
 
     - name: Sync Crdroid Repo
       run: |
-      cd $GITHUB_WORKSPACE/crdroid && repo init -u https://github.com/crdroidandroid/android.git -b 14.0 && repo sync
+        cd $GITHUB_WORKSPACE/crdroid
+        repo init -u https://github.com/crdroidandroid/android.git -b 14.0
+        repo sync
 
-      - name: Sync Device Repos
+    - name: Sync Device Repos
       run: |
         cd $GITHUB_WORKSPACE/crdroid
         git clone https://github.com/crdroidandroid/android_device_xiaomi_lisa.git -b 14.0 device/xiaomi/lisa
