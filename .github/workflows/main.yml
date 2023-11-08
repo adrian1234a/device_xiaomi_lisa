@@ -1,0 +1,38 @@
+name: Build ROM (TEST)
+on:
+  watch:
+    types: [started]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build rom TEST
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup build environment
+      run: |
+        sudo apt update
+        sudo apt install repo bc bison build-essential ccache curl flex g++-multilib gcc-multilib git git-lfs gnupg gperf imagemagick lib32readline-dev lib32z1-dev libelf-dev liblz4-tool libsdl1.2-dev libssl-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev lib32ncurses5-dev libncurses5 libncurses5-dev python3 python-is-python3
+        mkdir -p $GITHUB_WORKSPACE/crdroid
+
+    - name: Sync Crdroid Repo
+      run: |
+      cd $GITHUB_WORKSPACE/crdroid && repo init -u https://github.com/crdroidandroid/android.git -b 14.0 && repo sync
+
+      - name: Sync Device Repos
+      run: |
+        cd $GITHUB_WORKSPACE/crdroid
+        git clone https://github.com/crdroidandroid/android_device_xiaomi_lisa.git -b 14.0 device/xiaomi/lisa
+        git clone https://github.com/crdroidandroid/android_kernel_xiaomi_lisa.git -b 14.0 kernel/xiaomi/lisa
+        git clone https://github.com/crdroidandroid/android_vendor_xiaomi_lisa.git -b 14.0 vendor/xiaomi/lisa
+        git clone https://github.com/crdroidandroid/android_vendor_xiaomi_camera-lisa.git -b 14.0 vendor/xiaomi/camera
+        git clone https://github.com/crdroidandroid/android_hardware_xiaomi.git -b 14.0 hardware/xiaomi
+        
+    - name: Compiling Rom
+      run: |
+        cd $GITHUB_WORKSPACE/crdroid
+        . build/envsetup.sh
+        lunch lineage_lisa_userdebug
+        m bacon
