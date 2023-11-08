@@ -1,0 +1,49 @@
+name: Build Kernel (Stable)
+on:
+  watch:
+    types: [started]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build KernelSU Stable
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup build kernel environment
+      run: |
+        sudo apt update
+        sudo apt install libc6-dev clang flex bison libssl-dev bc python3 python2 zip unzip git lld llvm
+        mkdir -p $GITHUB_WORKSPACE/kernel_workspace
+        
+    - name: Download Clang 17.0.2
+      run: |
+        cd $GITHUB_WORKSPACE/kernel_workspace
+        git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86.git clang --depth=1
+        export PATH="$GITHUB_WORKSPACE/kernel_workspace/clang/clang-r487747c/bin:$PATH"
+        
+    - name: Download kernel source
+      run: |
+        cd $GITHUB_WORKSPACE/kernel_workspace
+        git clone https://github.com/adrian1234a/kernel_xiaomi_lisa.git --depth=1 -b 14.0
+        
+    - name: Integrate KernelSU
+      run: |
+        cd $GITHUB_WORKSPACE/kernel_workspace/kernel_xiaomi_lisa
+        curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -
+        
+    - name: Compiling Kernel
+      run: |
+        cd $GITHUB_WORKSPACE/kernel_workspace/kernel_xiaomi_lisa
+        chmod +x build.sh
+        ./build.sh
+        filename=$(find . -name Quick* -printf '%f\n')
+        echo $filename
+        echo "FILENAME=$filename" >> $GITHUB_ENV
+        
+    - name: Uploading Kernel
+      uses: actions/upload-artifact@v3
+      with:
+        name: QuicksilveR_KernelSU
+        path: ${{ github.workspace }}/kernel_workspace/kernel_xiaomi_lisa/${{ env.FILENAME }}
