@@ -38,6 +38,7 @@ PRODUCT_PACKAGES += \
     audio.r_submix.default \
     audio.primary.default \
     audio.usb.default \
+    android.media.audio.common.types-V1-cpp \
     libaudio-resampler \
     libtinycompress
 
