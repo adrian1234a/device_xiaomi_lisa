@@ -17,6 +17,7 @@
   },
   {
     "repository": "crdroidandroid/android_vendor_xiaomi_lisa-firmware",
-    "target_path": "vendor/xiaomi/lisa-firmware"
+    "target_path": "vendor/xiaomi/lisa-firmware",
+    "remote": "crdroid-gitlab"
   }
 ]
