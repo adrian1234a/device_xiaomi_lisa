@@ -5,9 +5,9 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/lineage_lisa.mk
+    $(LOCAL_DIR)/bootleg_lisa.mk
 
 COMMON_LUNCH_CHOICES := \
-    lineage_lisa-user \
-    lineage_lisa-userdebug \
-    lineage_lisa-eng
+    bootleg_lisa-user \
+    bootleg_lisa-userdebug \
+    bootleg_lisa-eng
