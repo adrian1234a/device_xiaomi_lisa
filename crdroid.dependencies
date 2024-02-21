@@ -9,7 +9,8 @@
   },
   {
     "repository": "crdroidandroid/android_vendor_xiaomi_camera-lisa",
-    "target_path": "vendor/xiaomi/camera"
+    "target_path": "vendor/xiaomi/camera",
+    "remote": "crdroid-gitlab"
   },
   {
     "repository": "crdroidandroid/android_kernel_xiaomi_lisa",
